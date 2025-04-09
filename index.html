@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site de Conteúdo - Ads Ready</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+    header, footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    nav {
+      background: #333;
+      display: flex;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .post {
+      margin-bottom: 2rem;
+      cursor: pointer;
+    }
+    .ad {
+      background: #e2e2e2;
+      padding: 1rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+      }
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Site de Conteúdo</h1>
+    <p>Seu portal de curiosidades e informação</p>
+  </header>
+
+  <nav>
+    <a href="#" onclick="showHome()">Início</a>
+    <a href="#">Sobre</a>
+    <a href="#">Contato</a>
+  </nav>
+
+  <div class="container" id="home">
+    <div class="ad">
+      <p>[Publicidade - Banner Topo]</p>
+    </div>
+    <div id="post-list"></div>
+    <div class="ad">
+      <p>[Publicidade - Rodapé]</p>
+    </div>
+  </div>
+
+  <div class="container hidden" id="post-view">
+    <button onclick="showHome()">&larr; Voltar</button>
+    <h2 id="post-title"></h2>
+    <p id="post-content"></p>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 - Site de Conteúdo. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    const posts = [
+      {
+        id: 1,
+        title: "Título do Artigo",
+        summary: "Resumo do conteúdo. Clique para ler mais...",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae justo ut nunc malesuada congue."
+      },
+      {
+        id: 2,
+        title: "Outro Título Interessante",
+        summary: "Resumo do conteúdo. Clique para ler mais...",
+        content: "Proin vel justo at ipsum porttitor pharetra. Sed eu nunc nec sapien malesuada tempor."
+      }
+    ];
+
+    function renderPosts() {
+      const postList = document.getElementById("post-list");
+      postList.innerHTML = "";
+      posts.forEach(post => {
+        const postDiv = document.createElement("div");
+        postDiv.className = "post";
+        postDiv.onclick = () => showPost(post.id);
+        postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.summary}</p>`;
+        postList.appendChild(postDiv);
+
+        if (post.id === 1) {
+          postList.appendChild(createAd("[Publicidade - Entre Conteúdo]"));
+        }
+      });
+    }
+
+    function createAd(text) {
+      const adDiv = document.createElement("div");
+      adDiv.className = "ad";
+      adDiv.innerText = text;
+      return adDiv;
+    }
+
+    function showPost(id) {
+      const post = posts.find(p => p.id === id);
+      if (post) {
+        document.getElementById("post-title").innerText = post.title;
+        document.getElementById("post-content").innerText = post.content;
+        document.getElementById("home").classList.add("hidden");
+        document.getElementById("post-view").classList.remove("hidden");
+      }
+    }
+
+    function showHome() {
+      document.getElementById("post-view").classList.add("hidden");
+      document.getElementById("home").classList.remove("hidden");
+    }
+
+    // Inicializa os posts ao carregar
+    window.onload = renderPosts;
+  </script>
+
+</body>
+</html>
